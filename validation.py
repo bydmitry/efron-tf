@@ -1,7 +1,7 @@
 """
 Validation of TensorFlow Efron likelihood with R survival package.
 
-author: bydmiry
+author: bydmitry
 date: 25.02.2018
 """
 

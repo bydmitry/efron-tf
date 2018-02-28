@@ -1,7 +1,7 @@
 """
 TensorFlow implementation of Efron partial likelihood.
 
-author: bydmiry
+author: bydmitry
 date: 25.02.2018
 """
 import tensorflow as tf
