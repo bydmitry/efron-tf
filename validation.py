@@ -1,5 +1,5 @@
 """
-Validation of TensorFlow Efron likelihood with R survival package.
+Validation of TensorFlow Efron likelihood with R survival package and Lifelines.
 
 author: bydmitry
 date: 25.02.2018
@@ -12,7 +12,7 @@ import tensorflow as tf
 from keras import backend as K
 
 from efrontf import efron_estimator_tf
-
+from lifelines import CoxPHFitter
 from rpy2 import robjects
 from rpy2.robjects import pandas2ri
 from rpy2.robjects.vectors import DataFrame
@@ -50,9 +50,17 @@ for k in range(10):
     r_out  = rfunc( df )
     preds, r_lik  = np.asarray(r_out[0]), np.negative(np.round(r_out[1][0],4))
 
-    tf_lik = K.eval( efron_estimator_tf(K.variable(ts), K.variable(es), K.variable(preds)) )
+    tf_lik_r = K.eval( efron_estimator_tf(K.variable(ts), K.variable(es), K.variable(preds)) )
 
-    print( 'TensorFlow : ', tf_lik )
+    # Compute ll with Lifelines:
+    cp = CoxPHFitter()
+    cp.fit(df, 'time', 'status')
+    preds = cp.predict_log_partial_hazard(df.drop(['time', 'status'], axis=1)).values[:, 0]
+    tf_lik_lifelines = K.eval( efron_estimator_tf(K.variable(ts), K.variable(es), K.variable(preds)) )
+
+    print( 'TensorFlow w/ R: ', tf_lik_r )
     print( 'R-survival : ', r_lik, end='\n\n' )
+    print( 'TensorFlow w/ R: ', tf_lik_lifelines )
+    print( 'Lifelines : ', cp._log_likelihood )
 
 # done.
