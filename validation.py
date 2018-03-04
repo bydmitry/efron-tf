@@ -60,7 +60,7 @@ for k in range(10):
 
     print( 'TensorFlow w/ R: ', tf_lik_r )
     print( 'R-survival : ', r_lik, end='\n\n' )
-    print( 'TensorFlow w/ R: ', tf_lik_lifelines )
+    print( 'TensorFlow w/ lifelines: ', tf_lik_lifelines )
     print( 'Lifelines : ', cp._log_likelihood )
 
 # done.
