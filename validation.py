@@ -1,8 +1,8 @@
 """
 Validation of TensorFlow Efron likelihood with R survival package and Lifelines.
 
-author: bydmitry
-date: 25.02.2018
+author: bydmitry & CamDavidsonPilon
+date: 06.03.2018
 """
 
 import numpy as np
